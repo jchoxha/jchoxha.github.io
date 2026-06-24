@@ -64,4 +64,4 @@ fetches it at runtime (same-origin, no build) and renders a button per link:
 ## Listed projects
 - [str.rest](https://jchoxha.github.io/str-rest/) — digital guidebooks for short-term rental hosts
 - [Chimera Cards](https://jchoxha.github.io/chimera_cards/) — card game (`/app.html`)
-- [HappyPrism](https://jchoxha.github.io/HappyPrism-Canvas/) — interactive canvas ([main repo](https://github.com/jchoxha/HappyPrism-beta))
+- [HappyPrism](https://happyprism.com) — interactive canvas; live at happyprism.com (main repo `HappyPrism-v3`, private), with public [beta](https://github.com/jchoxha/HappyPrism-beta) and [Canvas](https://jchoxha.github.io/HappyPrism-Canvas/) repos

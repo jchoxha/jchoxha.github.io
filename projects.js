@@ -39,15 +39,21 @@ const PROJECTS = [
     id: "happyprism",
     emoji: "🌈",
     title: "HappyPrism",
-    desc: "An interactive canvas experience, split across multiple repos.",
+    desc: "An interactive canvas experience. The live app runs at happyprism.com; the work is split across several repos.",
     color: "#3ddc97",
-    repo: "https://github.com/jchoxha/HappyPrism-beta",
-    pages: "https://jchoxha.github.io/HappyPrism-Canvas/",
-    // Additional repos for multi-repo projects (the main repo is `repo` above).
+    // Live site is a custom domain (Heroku), not GitHub Pages.
+    repo: "https://github.com/jchoxha/HappyPrism-v3", // main repo (private)
+    pages: "https://happyprism.com",                  // live site
+    // Additional repos for this multi-repo project (the main repo is `repo`).
     repos: [
+      { label: "Beta repo", url: "https://github.com/jchoxha/HappyPrism-beta" },
       { label: "Canvas repo", url: "https://github.com/jchoxha/HappyPrism-Canvas" }
     ],
-    links: []
+    // Extra public pages. happyprism.com is cross-origin, so directory.json
+    // can't be fetched from it — these inline links are always used here.
+    links: [
+      { label: "Canvas demo", url: "https://jchoxha.github.io/HappyPrism-Canvas/" }
+    ]
   }
 ];
 
