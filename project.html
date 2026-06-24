@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project — Jeton Hoxha</title>
+  <meta name="description" content="Project details and links." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .back { margin-bottom: 36px; }
+    .proj-head { display: flex; align-items: center; gap: 22px; margin-bottom: 22px; }
+    .proj-emoji {
+      flex: none;
+      width: 84px; height: 84px; border-radius: 22px;
+      background: color-mix(in srgb, var(--accent) 18%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 42px;
+    }
+    h1 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(38px, 7vw, 64px);
+      font-weight: 700; line-height: 1.0; letter-spacing: -0.03em;
+    }
+    .desc { font-size: clamp(16px, 2.2vw, 19px); color: var(--muted); max-width: 620px; margin-bottom: 40px; }
+    .section-label {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin: 32px 0 14px;
+    }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 14px; }
+    #notfound { display: none; }
+    #notfound h1 { margin-bottom: 16px; }
+    .loading { color: var(--muted); font-size: 15px; }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+
+  <div class="wrap">
+    <a class="eyebrow back" href="index.html">← All projects</a>
+
+    <main id="content" hidden>
+      <div class="proj-head">
+        <div class="proj-emoji" id="emoji"></div>
+        <h1 id="title"></h1>
+      </div>
+      <p class="desc" id="desc"></p>
+
+      <div class="section-label">Pages</div>
+      <div class="btn-row" id="pages-row"></div>
+
+      <div class="section-label">Source</div>
+      <div class="btn-row" id="source-row"></div>
+    </main>
+
+    <section id="notfound">
+      <h1>Project not found</h1>
+      <p class="desc">That project isn't in the directory.</p>
+      <a class="btn primary" href="index.html"><span class="ico">←</span> Back to directory</a>
+    </section>
+
+    <footer>
+      <span>Hosted on GitHub Pages ⚡</span>
+      <a href="https://github.com/jchoxha" target="_blank" rel="noopener">github.com/jchoxha →</a>
+    </footer>
+  </div>
+
+  <script src="projects.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const project = findProject(params.get("p"));
+
+    function btn(label, url, { primary = false, icon = "" } = {}) {
+      const cls = "btn" + (primary ? " primary" : "");
+      const ic = icon ? `<span class="ico">${icon}</span>` : "";
+      return `<a class="${cls}" href="${url}" target="_blank" rel="noopener">${ic}${label}<span class="ext">↗</span></a>`;
+    }
+
+    if (!project) {
+      document.getElementById("notfound").style.display = "block";
+    } else {
+      const color = projectColor(project);
+      document.documentElement.style.setProperty("--accent", color);
+      document.title = `${project.title} — Jeton Hoxha`;
+
+      document.getElementById("emoji").textContent = project.emoji || "🔗";
+      document.getElementById("title").textContent = project.title;
+      document.getElementById("desc").textContent = project.desc || "";
+
+      // Source buttons: main repo always, plus any extra repos.
+      const sources = [btn("Source code", project.repo, { primary: true, icon: "⌥" })];
+      (project.repos || []).forEach(r => sources.push(btn(r.label, r.url, { icon: "⌥" })));
+      document.getElementById("source-row").innerHTML = sources.join("");
+
+      // Pages: live site always, plus declared pages (from directory.json or fallback).
+      const pagesRow = document.getElementById("pages-row");
+      pagesRow.innerHTML = `<span class="loading">Loading pages…</span>`;
+      document.getElementById("content").hidden = false;
+
+      resolveProjectLinks(project).then(links => {
+        const buttons = [btn("Visit site", project.pages, { primary: true, icon: "↗" })];
+        links.forEach(l => buttons.push(btn(l.label, l.url, { primary: l.primary })));
+        pagesRow.innerHTML = buttons.join("");
+      });
+    }
+  </script>
+</body>
+</html>

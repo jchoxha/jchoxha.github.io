@@ -9,96 +9,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
   <style>
-    :root {
-      --bg: #0b0a12;
-      --bg-2: #120f1d;
-      --card: rgba(255, 255, 255, 0.04);
-      --card-hover: rgba(255, 255, 255, 0.07);
-      --border: rgba(255, 255, 255, 0.10);
-      --text: #f4f1fb;
-      --muted: #a39fb8;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      min-height: 100vh;
-      line-height: 1.55;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-
-    /* Glowing animated background */
-    .bg {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background:
-        radial-gradient(40% 50% at 15% 10%, rgba(255, 92, 138, 0.30), transparent 70%),
-        radial-gradient(45% 55% at 85% 20%, rgba(91, 140, 255, 0.28), transparent 70%),
-        radial-gradient(50% 50% at 70% 90%, rgba(61, 220, 151, 0.22), transparent 70%),
-        radial-gradient(40% 45% at 25% 85%, rgba(176, 107, 255, 0.24), transparent 70%);
-      filter: blur(20px);
-    }
-    .bg .blob {
-      position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.5;
-      animation: float 20s ease-in-out infinite;
-    }
-    .bg .b1 { width: 380px; height: 380px; background: #ff5c8a; top: -90px; left: -60px; }
-    .bg .b2 { width: 360px; height: 360px; background: #5b8cff; bottom: -100px; right: -60px; animation-delay: -7s; }
-    .bg .b3 { width: 300px; height: 300px; background: #b06bff; top: 45%; left: 55%; animation-delay: -13s; }
-    /* subtle starfield grain */
-    .bg::after {
-      content: ""; position: absolute; inset: 0; opacity: 0.04;
-      background-image: radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px);
-      background-size: 32px 32px;
-    }
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(50px, -40px) scale(1.12); }
-      66% { transform: translate(-30px, 50px) scale(0.92); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .bg .blob { animation: none; }
-      .card:hover { transform: none !important; }
-    }
-
-    .wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 80px 24px 64px; }
-
-    /* Header */
     header { margin-bottom: 64px; }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: "Space Grotesk", sans-serif;
-      font-size: 13px; font-weight: 600; letter-spacing: 0.06em;
-      color: var(--text);
-      background: var(--card); border: 1px solid var(--border);
-      padding: 7px 14px; border-radius: 999px;
-      backdrop-filter: blur(12px);
-      margin-bottom: 24px;
-    }
-    .eyebrow .dot {
-      width: 8px; height: 8px; border-radius: 50%; background: #3ddc97;
-      box-shadow: 0 0 10px #3ddc97; animation: pulse 2s ease-in-out infinite;
-    }
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+    .eyebrow { margin-bottom: 24px; }
     h1 {
       font-family: "Space Grotesk", sans-serif;
       font-size: clamp(46px, 8.5vw, 88px);
       font-weight: 700; line-height: 0.98; letter-spacing: -0.03em;
     }
-    h1 .grad {
-      background: linear-gradient(100deg, #ff5c8a, #b06bff 45%, #5b8cff);
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
     .sub {
       font-size: clamp(17px, 2.2vw, 20px); color: var(--muted);
       margin-top: 22px; max-width: 540px; font-weight: 400;
     }
-
-    /* Grid */
     .grid {
       display: grid; gap: 22px;
       grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
@@ -117,7 +40,6 @@
       transition: transform 0.25s cubic-bezier(.34,1.4,.5,1), background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
       overflow: hidden;
     }
-    /* color glow wash from the card's accent */
     .card::before {
       content: ""; position: absolute; inset: 0; z-index: 0;
       background: radial-gradient(120% 90% at 50% -10%, var(--card-color, #ff5c8a), transparent 60%);
@@ -146,7 +68,7 @@
       font-size: 22px; font-weight: 600; letter-spacing: -0.01em;
     }
     .card-desc { font-size: 15px; color: var(--muted); margin-top: 8px; flex: 1; }
-    .card-link { font-size: 13px; font-weight: 500; color: var(--muted); opacity: 0.7; margin-top: 18px; word-break: break-all; }
+    .card-meta { font-size: 13px; font-weight: 500; color: var(--muted); opacity: 0.7; margin-top: 18px; }
     .card-cta {
       margin-top: 14px;
       font-family: "Space Grotesk", sans-serif;
@@ -156,21 +78,6 @@
     }
     .card-cta .arrow { transition: transform 0.25s ease; }
     .card:hover .card-cta .arrow { transform: translateX(5px); }
-
-    /* Footer */
-    footer {
-      margin-top: 72px; padding-top: 28px;
-      border-top: 1px solid var(--border);
-      font-size: 15px; color: var(--muted);
-      display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center;
-    }
-    footer a {
-      font-family: "Space Grotesk", sans-serif; font-weight: 600;
-      color: var(--text); text-decoration: none;
-      transition: color 0.2s ease;
-    }
-    footer a:hover { color: #ff5c8a; }
-
     @media (max-width: 600px) { .wrap { padding-top: 56px; } }
   </style>
 </head>
@@ -185,11 +92,11 @@
     <header>
       <span class="eyebrow"><span class="dot"></span> Jeton Hoxha · live &amp; shipping</span>
       <h1>Stuff I've<br /><span class="grad">shipped</span>.</h1>
-      <p class="sub">A directory of my projects deployed on GitHub Pages — poke around and click into anything.</p>
+      <p class="sub">A directory of my projects deployed on GitHub Pages — click into any project for its links and source.</p>
     </header>
 
     <main class="grid" id="sites">
-      <!-- Cards are rendered from the SITES array below so adding a new site is one line. -->
+      <!-- Cards are rendered from PROJECTS (projects.js). -->
     </main>
 
     <footer>
@@ -198,45 +105,20 @@
     </footer>
   </div>
 
+  <script src="projects.js"></script>
   <script>
-    // To add a site: append an entry. emoji & color are optional.
-    const SITES = [
-      {
-        emoji: "🏔️",
-        title: "str.rest",
-        desc: "Digital guidebooks and direct-booking pages for short-term rental hosts.",
-        url: "https://jchoxha.github.io/str-rest/",
-        color: "#5b8cff"
-      },
-      {
-        emoji: "🃏",
-        title: "Chimera Cards",
-        desc: "A card game project.",
-        url: "https://jchoxha.github.io/chimera_cards/",
-        color: "#ff5c8a"
-      },
-      {
-        emoji: "🌈",
-        title: "HappyPrism",
-        desc: "An interactive canvas experience.",
-        url: "https://jchoxha.github.io/HappyPrism-Canvas/",
-        color: "#3ddc97"
-      }
-    ];
-
-    // Fallback palette gives each card a distinct glow if color is omitted.
-    const PALETTE = ["#ff5c8a", "#5b8cff", "#3ddc97", "#b06bff", "#ffd23f", "#ff8c42"];
-
     const grid = document.getElementById("sites");
-    grid.innerHTML = SITES.map((s, i) => {
-      const color = s.color || PALETTE[i % PALETTE.length];
+    grid.innerHTML = PROJECTS.map((p, i) => {
+      const color = projectColor(p, i);
+      const repoCount = 1 + (p.repos ? p.repos.length : 0);
+      const meta = repoCount > 1 ? `${repoCount} repos` : "1 repo";
       return `
-      <a class="card" style="--card-color:${color};" href="${s.url}" target="_blank" rel="noopener">
-        <div class="card-emoji">${s.emoji || "🔗"}</div>
-        <div class="card-title">${s.title}</div>
-        <div class="card-desc">${s.desc || ""}</div>
-        <div class="card-link">${s.url.replace(/^https?:\/\//, "")}</div>
-        <div class="card-cta">Visit <span class="arrow">→</span></div>
+      <a class="card" style="--card-color:${color};" href="project.html?p=${encodeURIComponent(p.id)}">
+        <div class="card-emoji">${p.emoji || "🔗"}</div>
+        <div class="card-title">${p.title}</div>
+        <div class="card-desc">${p.desc || ""}</div>
+        <div class="card-meta">${meta}</div>
+        <div class="card-cta">Explore <span class="arrow">→</span></div>
       </a>`;
     }).join("");
   </script>
