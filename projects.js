@@ -52,7 +52,8 @@ const PROJECTS = [
     // Extra public pages. happyprism.com is cross-origin, so directory.json
     // can't be fetched from it — these inline links are always used here.
     links: [
-      { label: "Canvas demo", url: "https://jchoxha.github.io/HappyPrism-Canvas/" }
+      { label: "Canvas demo", url: "https://jchoxha.github.io/HappyPrism-Canvas/" },
+      { label: "Beta demo", url: "https://jchoxha.github.io/HappyPrism-beta/" }
     ]
   }
 ];
