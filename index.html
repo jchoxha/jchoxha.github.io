@@ -11,162 +11,180 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --ink: #14121f;
-      --paper: #fef6e4;
-      --paper-2: #fff;
-      --muted: #6b6480;
-      --line: #14121f;
-      --shadow: 6px 6px 0 var(--ink);
-      --shadow-lg: 10px 10px 0 var(--ink);
+      --bg: #0b0a12;
+      --bg-2: #120f1d;
+      --card: rgba(255, 255, 255, 0.04);
+      --card-hover: rgba(255, 255, 255, 0.07);
+      --border: rgba(255, 255, 255, 0.10);
+      --text: #f4f1fb;
+      --muted: #a39fb8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       font-family: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--ink);
-      background: var(--paper);
+      color: var(--text);
+      background: var(--bg);
       min-height: 100vh;
       line-height: 1.55;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    /* Animated playful background blobs */
-    .blob {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.55;
-      z-index: 0;
-      pointer-events: none;
-      animation: float 18s ease-in-out infinite;
+    /* Glowing animated background */
+    .bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(40% 50% at 15% 10%, rgba(255, 92, 138, 0.30), transparent 70%),
+        radial-gradient(45% 55% at 85% 20%, rgba(91, 140, 255, 0.28), transparent 70%),
+        radial-gradient(50% 50% at 70% 90%, rgba(61, 220, 151, 0.22), transparent 70%),
+        radial-gradient(40% 45% at 25% 85%, rgba(176, 107, 255, 0.24), transparent 70%);
+      filter: blur(20px);
     }
-    .blob.b1 { width: 460px; height: 460px; background: #ff5c8a; top: -140px; left: -120px; }
-    .blob.b2 { width: 420px; height: 420px; background: #5b8cff; bottom: -160px; right: -120px; animation-delay: -6s; }
-    .blob.b3 { width: 340px; height: 340px; background: #ffd23f; top: 40%; right: 10%; animation-delay: -11s; }
+    .bg .blob {
+      position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.5;
+      animation: float 20s ease-in-out infinite;
+    }
+    .bg .b1 { width: 380px; height: 380px; background: #ff5c8a; top: -90px; left: -60px; }
+    .bg .b2 { width: 360px; height: 360px; background: #5b8cff; bottom: -100px; right: -60px; animation-delay: -7s; }
+    .bg .b3 { width: 300px; height: 300px; background: #b06bff; top: 45%; left: 55%; animation-delay: -13s; }
+    /* subtle starfield grain */
+    .bg::after {
+      content: ""; position: absolute; inset: 0; opacity: 0.04;
+      background-image: radial-gradient(rgba(255,255,255,0.8) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
     @keyframes float {
       0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(40px, -50px) scale(1.1); }
-      66% { transform: translate(-30px, 40px) scale(0.95); }
+      33% { transform: translate(50px, -40px) scale(1.12); }
+      66% { transform: translate(-30px, 50px) scale(0.92); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .blob { animation: none; }
+      .bg .blob { animation: none; }
       .card:hover { transform: none !important; }
     }
 
-    .wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 72px 24px 64px; }
+    .wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 80px 24px 64px; }
 
     /* Header */
     header { margin-bottom: 64px; }
     .eyebrow {
-      display: inline-block;
+      display: inline-flex; align-items: center; gap: 8px;
       font-family: "Space Grotesk", sans-serif;
-      font-size: 14px; font-weight: 700; letter-spacing: 0.04em;
-      background: var(--ink); color: var(--paper);
-      padding: 6px 14px; border-radius: 999px;
-      transform: rotate(-2deg);
-      margin-bottom: 22px;
+      font-size: 13px; font-weight: 600; letter-spacing: 0.06em;
+      color: var(--text);
+      background: var(--card); border: 1px solid var(--border);
+      padding: 7px 14px; border-radius: 999px;
+      backdrop-filter: blur(12px);
+      margin-bottom: 24px;
     }
+    .eyebrow .dot {
+      width: 8px; height: 8px; border-radius: 50%; background: #3ddc97;
+      box-shadow: 0 0 10px #3ddc97; animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
     h1 {
       font-family: "Space Grotesk", sans-serif;
-      font-size: clamp(48px, 9vw, 92px);
-      font-weight: 700; line-height: 0.95; letter-spacing: -0.03em;
+      font-size: clamp(46px, 8.5vw, 88px);
+      font-weight: 700; line-height: 0.98; letter-spacing: -0.03em;
     }
-    h1 .pop {
-      display: inline-block;
-      color: #ff5c8a;
-      -webkit-text-stroke: 2px var(--ink);
-      transition: transform 0.2s ease;
+    h1 .grad {
+      background: linear-gradient(100deg, #ff5c8a, #b06bff 45%, #5b8cff);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    h1 .pop:hover { transform: rotate(-4deg) scale(1.05); }
     .sub {
-      font-size: clamp(17px, 2.2vw, 21px); color: var(--muted);
-      margin-top: 20px; max-width: 540px; font-weight: 500;
+      font-size: clamp(17px, 2.2vw, 20px); color: var(--muted);
+      margin-top: 22px; max-width: 540px; font-weight: 400;
     }
 
     /* Grid */
     .grid {
-      display: grid; gap: 24px;
+      display: grid; gap: 22px;
       grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
     }
     .card {
       position: relative;
       display: flex; flex-direction: column;
-      background: var(--paper-2);
-      border: 3px solid var(--ink);
-      border-radius: 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
       padding: 26px;
       text-decoration: none;
       color: inherit;
-      box-shadow: var(--shadow);
-      transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: transform 0.25s cubic-bezier(.34,1.4,.5,1), background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
       overflow: hidden;
     }
+    /* color glow wash from the card's accent */
     .card::before {
-      content: "";
-      position: absolute; inset: 0;
-      background: var(--card-color, #ff5c8a);
-      opacity: 0; transition: opacity 0.18s ease;
-      z-index: 0;
+      content: ""; position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(120% 90% at 50% -10%, var(--card-color, #ff5c8a), transparent 60%);
+      opacity: 0; transition: opacity 0.3s ease;
     }
-    .card:hover { transform: translate(-2px, -6px) rotate(var(--tilt, -1deg)); box-shadow: var(--shadow-lg); }
-    .card:hover::before { opacity: 0.12; }
-    .card:focus-visible { outline: 3px dashed var(--ink); outline-offset: 3px; }
+    .card:hover {
+      transform: translateY(-6px);
+      background: var(--card-hover);
+      border-color: color-mix(in srgb, var(--card-color, #ff5c8a) 55%, transparent);
+      box-shadow: 0 20px 50px -20px color-mix(in srgb, var(--card-color, #ff5c8a) 70%, transparent);
+    }
+    .card:hover::before { opacity: 0.16; }
+    .card:focus-visible { outline: 2px solid var(--card-color, #ff5c8a); outline-offset: 3px; }
     .card > * { position: relative; z-index: 1; }
     .card-emoji {
-      width: 60px; height: 60px; border-radius: 16px;
-      background: var(--card-color, #ff5c8a);
-      border: 3px solid var(--ink);
+      width: 58px; height: 58px; border-radius: 16px;
+      background: color-mix(in srgb, var(--card-color, #ff5c8a) 18%, transparent);
+      border: 1px solid color-mix(in srgb, var(--card-color, #ff5c8a) 40%, transparent);
       display: flex; align-items: center; justify-content: center;
-      font-size: 30px; margin-bottom: 20px;
-      transition: transform 0.2s ease;
+      font-size: 28px; margin-bottom: 20px;
+      transition: transform 0.25s ease;
     }
-    .card:hover .card-emoji { transform: rotate(-8deg) scale(1.08); }
+    .card:hover .card-emoji { transform: rotate(-8deg) scale(1.1); }
     .card-title {
       font-family: "Space Grotesk", sans-serif;
-      font-size: 23px; font-weight: 700; letter-spacing: -0.01em;
+      font-size: 22px; font-weight: 600; letter-spacing: -0.01em;
     }
     .card-desc { font-size: 15px; color: var(--muted); margin-top: 8px; flex: 1; }
-    .card-link {
-      font-size: 13px; font-weight: 600; color: var(--ink); opacity: 0.6;
-      margin-top: 18px; word-break: break-all;
-    }
+    .card-link { font-size: 13px; font-weight: 500; color: var(--muted); opacity: 0.7; margin-top: 18px; word-break: break-all; }
     .card-cta {
       margin-top: 14px;
       font-family: "Space Grotesk", sans-serif;
-      font-weight: 700; font-size: 15px;
+      font-weight: 600; font-size: 15px;
+      color: var(--card-color, #ff5c8a);
       display: inline-flex; align-items: center; gap: 6px;
     }
-    .card-cta .arrow { transition: transform 0.2s ease; }
+    .card-cta .arrow { transition: transform 0.25s ease; }
     .card:hover .card-cta .arrow { transform: translateX(5px); }
 
     /* Footer */
     footer {
       margin-top: 72px; padding-top: 28px;
-      border-top: 3px solid var(--ink);
-      font-size: 15px; font-weight: 500; color: var(--muted);
+      border-top: 1px solid var(--border);
+      font-size: 15px; color: var(--muted);
       display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center;
     }
     footer a {
-      font-family: "Space Grotesk", sans-serif; font-weight: 700;
-      color: var(--ink); text-decoration: none;
-      border-bottom: 3px solid #ff5c8a;
-      transition: background 0.15s ease;
+      font-family: "Space Grotesk", sans-serif; font-weight: 600;
+      color: var(--text); text-decoration: none;
+      transition: color 0.2s ease;
     }
-    footer a:hover { background: #ffd23f; }
+    footer a:hover { color: #ff5c8a; }
 
-    @media (max-width: 600px) { .wrap { padding-top: 52px; } }
+    @media (max-width: 600px) { .wrap { padding-top: 56px; } }
   </style>
 </head>
 <body>
-  <div class="blob b1"></div>
-  <div class="blob b2"></div>
-  <div class="blob b3"></div>
+  <div class="bg" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
 
   <div class="wrap">
     <header>
-      <span class="eyebrow">👋 Jeton Hoxha</span>
-      <h1>Stuff I've<br /><span class="pop">shipped</span>.</h1>
+      <span class="eyebrow"><span class="dot"></span> Jeton Hoxha · live &amp; shipping</span>
+      <h1>Stuff I've<br /><span class="grad">shipped</span>.</h1>
       <p class="sub">A directory of my projects deployed on GitHub Pages — poke around and click into anything.</p>
     </header>
 
@@ -202,20 +220,18 @@
         title: "HappyPrism",
         desc: "An interactive canvas experience.",
         url: "https://jchoxha.github.io/HappyPrism-Canvas/",
-        color: "#ffd23f"
+        color: "#3ddc97"
       }
     ];
 
-    // Fallback palette + slight random tilt for that hand-placed, playful feel.
-    const PALETTE = ["#ff5c8a", "#5b8cff", "#ffd23f", "#3ddc97", "#b06bff", "#ff8c42"];
-    const TILTS = ["-1.5deg", "1.2deg", "-1deg", "1.5deg"];
+    // Fallback palette gives each card a distinct glow if color is omitted.
+    const PALETTE = ["#ff5c8a", "#5b8cff", "#3ddc97", "#b06bff", "#ffd23f", "#ff8c42"];
 
     const grid = document.getElementById("sites");
     grid.innerHTML = SITES.map((s, i) => {
       const color = s.color || PALETTE[i % PALETTE.length];
-      const tilt = TILTS[i % TILTS.length];
       return `
-      <a class="card" style="--card-color:${color}; --tilt:${tilt};" href="${s.url}" target="_blank" rel="noopener">
+      <a class="card" style="--card-color:${color};" href="${s.url}" target="_blank" rel="noopener">
         <div class="card-emoji">${s.emoji || "🔗"}</div>
         <div class="card-title">${s.title}</div>
         <div class="card-desc">${s.desc || ""}</div>
