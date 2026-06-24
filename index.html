@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jeton Hoxha — Live Sites</title>
+  <meta name="description" content="A directory of my live GitHub Pages sites and projects." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗂️</text></svg>" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-card: #1e293b;
+      --border: #334155;
+      --border-hover: #3b82f6;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #3b82f6;
+      --accent-soft: #60a5fa;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 80px 24px 64px; }
+    header { margin-bottom: 56px; }
+    .eyebrow {
+      font-size: 13px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent-soft); margin-bottom: 12px;
+    }
+    h1 { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; }
+    .sub { font-size: 18px; color: var(--text-muted); margin-top: 12px; max-width: 560px; }
+    .grid {
+      display: grid; gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+    .card {
+      display: flex; flex-direction: column;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.18s ease, border-color 0.18s ease;
+    }
+    .card:hover { transform: translateY(-4px); border-color: var(--border-hover); }
+    .card-emoji {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--bg); display: flex; align-items: center;
+      justify-content: center; font-size: 26px; margin-bottom: 18px;
+    }
+    .card-title { font-size: 19px; font-weight: 600; }
+    .card-desc { font-size: 14px; color: var(--text-muted); margin-top: 6px; flex: 1; }
+    .card-link {
+      font-size: 13px; color: var(--accent-soft); margin-top: 18px;
+      display: flex; align-items: center; gap: 6px;
+      word-break: break-all;
+    }
+    .card-cta { margin-top: 4px; font-size: 13px; font-weight: 500; color: var(--accent); }
+    footer {
+      margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--border);
+      font-size: 14px; color: var(--text-muted);
+      display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between;
+    }
+    footer a { color: var(--accent-soft); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    @media (max-width: 600px) { h1 { font-size: 34px; } .wrap { padding-top: 56px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Jeton Hoxha</div>
+      <h1>Live Sites</h1>
+      <p class="sub">A directory of my projects deployed on GitHub Pages.</p>
+    </header>
+
+    <main class="grid" id="sites">
+      <!-- Cards are rendered from the SITES array below so adding a new site is one line. -->
+    </main>
+
+    <footer>
+      <span>Hosted on GitHub Pages</span>
+      <a href="https://github.com/jchoxha" target="_blank" rel="noopener">github.com/jchoxha →</a>
+    </footer>
+  </div>
+
+  <script>
+    // To add a site: append an entry. emoji is optional (defaults to 🔗).
+    const SITES = [
+      {
+        emoji: "🏔️",
+        title: "str.rest",
+        desc: "Digital guidebooks and direct-booking pages for short-term rental hosts.",
+        url: "https://jchoxha.github.io/str-rest/"
+      },
+      {
+        emoji: "🃏",
+        title: "Chimera Cards",
+        desc: "A card game project.",
+        url: "https://jchoxha.github.io/chimera_cards/"
+      },
+      {
+        emoji: "🌈",
+        title: "HappyPrism",
+        desc: "An interactive canvas experience.",
+        url: "https://jchoxha.github.io/HappyPrism-Canvas/"
+      }
+    ];
+
+    const grid = document.getElementById("sites");
+    grid.innerHTML = SITES.map(s => `
+      <a class="card" href="${s.url}" target="_blank" rel="noopener">
+        <div class="card-emoji">${s.emoji || "🔗"}</div>
+        <div class="card-title">${s.title}</div>
+        <div class="card-desc">${s.desc || ""}</div>
+        <div class="card-link">${s.url.replace(/^https?:\/\//, "")}</div>
+        <div class="card-cta">Visit →</div>
+      </a>
+    `).join("");
+  </script>
+</body>
+</html>
