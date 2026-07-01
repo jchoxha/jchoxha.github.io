@@ -118,3 +118,46 @@ footer a:hover { color: #ff5c8a; }
   background: var(--accent); color: #0b0a12; border-color: transparent;
 }
 .btn.primary .ext { opacity: 0.85; }
+
+/* Build status pill */
+.build-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: "Space Grotesk", sans-serif; font-size: 12px; font-weight: 600;
+  padding: 5px 11px; border-radius: 999px;
+  border: 1px solid var(--border); background: rgba(255, 255, 255, 0.03);
+  color: var(--s, var(--muted)); white-space: nowrap;
+}
+.build-pill .bdot {
+  width: 8px; height: 8px; border-radius: 50%; flex: none;
+  background: var(--s, var(--muted));
+}
+.build-pill.live .bdot {
+  box-shadow: 0 0 8px var(--s, var(--muted));
+  animation: pulse 1.1s ease-in-out infinite;
+}
+
+/* Build rows on project pages */
+.build-updated { font-family: "Outfit", sans-serif; font-size: 12px; font-weight: 400; color: var(--muted); text-transform: none; letter-spacing: 0; margin-left: 10px; }
+.refresh-btn {
+  font-family: "Space Grotesk", sans-serif; font-size: 12px; font-weight: 600;
+  color: var(--muted); background: var(--card); border: 1px solid var(--border);
+  border-radius: 999px; padding: 4px 12px; margin-left: 10px; cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.refresh-btn:hover { border-color: var(--accent); color: var(--text); }
+.build-list { display: flex; flex-direction: column; gap: 12px; }
+.build-row {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px 18px; backdrop-filter: blur(14px);
+}
+.build-repo { font-family: "Space Grotesk", sans-serif; font-weight: 600; font-size: 15px; min-width: 120px; }
+.build-slot { display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap; flex: 1; }
+.build-detail { font-size: 13px; color: var(--muted); }
+.build-detail .sha { font-family: "Space Grotesk", sans-serif; opacity: 0.8; }
+.build-link {
+  margin-left: auto; font-family: "Space Grotesk", sans-serif; font-weight: 600;
+  font-size: 13px; color: var(--muted); text-decoration: none; white-space: nowrap;
+  transition: color 0.2s ease;
+}
+.build-link:hover { color: var(--accent); }

@@ -14,7 +14,22 @@ frosted-glass cards, and a per-project accent color that glows on hover. Push to
 | `index.html` | Home grid. Each card links to that project's detail page. |
 | `project.html` | Reusable detail page (`project.html?p=<id>`) with nav buttons. |
 | `projects.js` | The project registry — single source of truth for the site. |
+| `buildstatus.js` | Live build tracker (reads the public GitHub Actions API). |
 | `styles.css` | Shared dark/glass styling. |
+
+## Build tracker
+
+Every card and project page shows a live build-status pill so you can tell when
+a fresh build is ready to test. It reads the latest GitHub Actions run for each
+repo straight from the public API (`api.github.com/repos/…/actions/runs`) —
+client-side, no auth, no build step. States: **Passing**, **Failing**,
+**Building…** / **Queued** (pulsing, auto-refreshes every 30s until it settles),
+**Cancelled**, **No builds**, and **Not tracked** (private repos like
+`HappyPrism-v3`). Each project page lists every repo with its latest commit and
+a "View runs" link; use the **↻ Refresh** button to force an update.
+
+> Anonymous API calls are capped at 60/hr per IP, so results are cached for 45s.
+> If you ever see "Unavailable · rate-limited", wait a minute and refresh.
 
 ## Adding or editing a project
 

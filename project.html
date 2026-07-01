@@ -60,6 +60,12 @@
 
       <div class="section-label">Source</div>
       <div class="btn-row" id="source-row"></div>
+
+      <div class="section-label">Builds
+        <button class="refresh-btn" id="refresh" type="button">↻ Refresh</button>
+        <span class="build-updated" id="build-updated"></span>
+      </div>
+      <div class="build-list" id="builds"></div>
     </main>
 
     <section id="notfound">
@@ -75,6 +81,7 @@
   </div>
 
   <script src="projects.js"></script>
+  <script src="buildstatus.js"></script>
   <script>
     const params = new URLSearchParams(location.search);
     const project = findProject(params.get("p"));
@@ -111,6 +118,38 @@
         links.forEach(l => buttons.push(btn(l.label, l.url, { primary: l.primary })));
         pagesRow.innerHTML = buttons.join("");
       });
+
+      // ---- Build tracker ----
+      const repos = projectRepos(project);
+      const buildsEl = document.getElementById("builds");
+      const updatedEl = document.getElementById("build-updated");
+      let pollTimer = null;
+
+      buildsEl.innerHTML = repos.map((r, i) => `
+        <div class="build-row">
+          <span class="build-repo">${r.label}</span>
+          <span class="build-slot" id="slot-${i}"><span class="build-pill"><span class="bdot"></span>Checking…</span></span>
+          <a class="build-link" href="https://github.com/${r.owner}/${r.name}/actions" target="_blank" rel="noopener">View runs ↗</a>
+        </div>`).join("");
+
+      async function loadBuilds(force) {
+        if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
+        const statuses = await Promise.all(repos.map(r => fetchBuildStatus(r.owner, r.name, { force })));
+        statuses.forEach((s, i) => {
+          const slot = document.getElementById("slot-" + i);
+          if (!slot) return;
+          let detail = "";
+          if (s.workflow || s.branch) detail += `<span class="build-detail">${escapeHtml([s.workflow, s.branch].filter(Boolean).join(" · "))}</span>`;
+          if (s.commit) detail += `<span class="build-detail">${escapeHtml(s.commit.message)} <span class="sha">${s.commit.sha}</span></span>`;
+          slot.innerHTML = buildPillHTML(s) + detail;
+        });
+        updatedEl.textContent = "updated just now";
+        // Keep polling (forced) while any build is still running.
+        if (anyBuildLive(statuses)) pollTimer = setTimeout(() => loadBuilds(true), 30000);
+      }
+
+      document.getElementById("refresh").addEventListener("click", () => loadBuilds(true));
+      loadBuilds(false);
     }
   </script>
 </body>

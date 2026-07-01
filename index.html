@@ -68,7 +68,8 @@
       font-size: 22px; font-weight: 600; letter-spacing: -0.01em;
     }
     .card-desc { font-size: 15px; color: var(--muted); margin-top: 8px; flex: 1; }
-    .card-meta { font-size: 13px; font-weight: 500; color: var(--muted); opacity: 0.7; margin-top: 18px; }
+    .card-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 13px; font-weight: 500; color: var(--muted); margin-top: 18px; }
+    .card-meta .repos { opacity: 0.7; }
     .card-cta {
       margin-top: 14px;
       font-family: "Space Grotesk", sans-serif;
@@ -106,6 +107,7 @@
   </div>
 
   <script src="projects.js"></script>
+  <script src="buildstatus.js"></script>
   <script>
     const grid = document.getElementById("sites");
     grid.innerHTML = PROJECTS.map((p, i) => {
@@ -113,14 +115,22 @@
       const repoCount = 1 + (p.repos ? p.repos.length : 0);
       const meta = repoCount > 1 ? `${repoCount} repos` : "1 repo";
       return `
-      <a class="card" style="--card-color:${color};" href="project.html?p=${encodeURIComponent(p.id)}">
+      <a class="card" data-id="${p.id}" style="--card-color:${color};" href="project.html?p=${encodeURIComponent(p.id)}">
         <div class="card-emoji">${p.emoji || "🔗"}</div>
         <div class="card-title">${p.title}</div>
         <div class="card-desc">${p.desc || ""}</div>
-        <div class="card-meta">${meta}</div>
+        <div class="card-meta"><span class="repos">${meta}</span><span class="card-build"></span></div>
         <div class="card-cta">Explore <span class="arrow">→</span></div>
       </a>`;
     }).join("");
+
+    // Live build status for each project's main repo.
+    PROJECTS.forEach(p => {
+      const slot = grid.querySelector(`.card[data-id="${p.id}"] .card-build`);
+      const primary = projectRepos(p)[0];
+      if (!slot || !primary) return;
+      fetchBuildStatus(primary.owner, primary.name).then(s => { slot.innerHTML = buildPillHTML(s); });
+    });
   </script>
 </body>
 </html>
